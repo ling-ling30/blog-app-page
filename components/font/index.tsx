@@ -6,7 +6,6 @@ export const roboto = Roboto({
   style: ["normal", "italic"],
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-roboto",
 });
 
 export const inter = Inter({
@@ -18,7 +17,6 @@ export const inter = Inter({
 export const roboto_mono = Roboto_Mono({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-roboto-mono",
   weight: ["100", "300", "400", "500", "700"],
   style: ["normal", "italic"],
 });
@@ -26,7 +24,6 @@ export const roboto_mono = Roboto_Mono({
 export const noto_sans = Noto_Sans({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-noto-sans",
   weight: ["100", "300", "400", "500", "700"],
   style: ["normal", "italic"],
 });

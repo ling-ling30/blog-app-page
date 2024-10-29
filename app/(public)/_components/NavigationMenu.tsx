@@ -1,3 +1,5 @@
+import { roboto } from "@/components/font";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import React from "react";
 
@@ -5,14 +7,14 @@ type Props = {};
 
 export default function NavigationMenu({}: Props) {
   return (
-    <nav className="hidden md:block">
-      <ul className="flex space-x-4">
+    <nav className={cn("hidden md:block", roboto.className)}>
+      {/* <ul className="flex space-x-4">
         <li>
           <Link
             href="/"
             className="hover:text-accent-foreground transition-colors"
           >
-            Home
+            Halaman Utama
           </Link>
         </li>
         <li>
@@ -39,7 +41,7 @@ export default function NavigationMenu({}: Props) {
             Contact
           </Link>
         </li>
-      </ul>
+      </ul> */}
     </nav>
   );
 }

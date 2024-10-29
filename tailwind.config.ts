@@ -61,12 +61,6 @@ const config: Config = {
           "5": "hsl(var(--chart-5))",
         },
       },
-      fontFamily: {
-        roboto: ["var(--font-roboto)"],
-        sans: ["var(--font-inter)"],
-        mono: ["var(--font-roboto-mono)"],
-        "noto-sans": ["var(--font-noto-sans)"],
-      },
     },
   },
   plugins: [require("tailwindcss-animate")],

@@ -12,11 +12,31 @@ import {
 } from "@/components/ui/dropdown-menu";
 import NavigationMenu from "./NavigationMenu";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { roboto } from "@/components/font";
 
 export default function Header() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  //
   return (
-    <header className="bg-primary text-primary-foreground shadow-md">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <header
+      className={cn(
+        "fixed w-full z-10 transition-all duration-300 shadow-sm",
+        scrollY > 50 &&
+          "bg-white/70 dark:bg-gray-900/70 backdrop-blur-md shadow-sm"
+      )}
+    >
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-primary">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
@@ -41,7 +61,9 @@ export default function Header() {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span className="font-bold text-xl">Tanya Mekanik</span>
+              <span className={cn("font-bold text-md", roboto.className)}>
+                Tanya Mekanik
+              </span>
             </Link>
           </div>
           <NavigationMenu />
@@ -50,12 +72,12 @@ export default function Header() {
           <div className="flex items-center space-x-2">
             <Input />
             <Button
-              variant="ghost"
+              variant="outline"
               size="icon"
-              className="text-primary-foreground hover:text-accent-foreground"
+              className="text-primary-foreground hover:text-accent-foreground hover:bg-primary-foreground"
               aria-label="Search"
             >
-              <Search className="h-5 w-5" />
+              <Search className="h-5 w-5 text-primary" />
             </Button>
 
             <DropdownMenu>
