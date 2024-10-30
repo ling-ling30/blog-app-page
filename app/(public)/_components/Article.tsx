@@ -30,7 +30,7 @@ export default function Article({ data }: Props) {
         height={1000}
         className="rounded-md object-fill"
       />
-      <div className="flex flex-col justify-between gap-y-2 p-4">
+      <div className="flex flex-col justify-between gap-y-2 p-2 md:p-4">
         <div className="flex items-center gap-x-2">
           <span className="text-xs font-medium text-muted-foreground">
             {data.date}
@@ -40,18 +40,18 @@ export default function Article({ data }: Props) {
           </span>
         </div>
       </div>
-      <CardHeader className="w-full">
+      <CardHeader className="w-full p-2 md:p-6">
         <h2 className="text-xl font-bold">{data.title}</h2>
       </CardHeader>
-      <CardContent>
-        <p className="text-sm text-muted-foreground">{data.description}</p>
+      <CardContent className="p-2 md:p-6 text-xs md:text-sm">
+        <p className="text-muted-foreground">{data.description}</p>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="p-2 md:p-6 text-xs md:text-sm">
         <div className="flex items-center gap-x-2">
-          <span className="text-sm font-medium text-muted-foreground">
+          <span className="font-medium text-muted-foreground">
             {data.category}
           </span>
-          <span className="text-sm font-medium text-muted-foreground">
+          <span className="font-medium text-muted-foreground">
             {data.tags.join(", ")}
           </span>
         </div>
