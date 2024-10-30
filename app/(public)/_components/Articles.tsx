@@ -31,7 +31,7 @@ export default function Articles({ articles, categories }: Props) {
     q: "",
     sort_by: "publish_date",
     page: 1,
-    category: "",
+    category: "View All",
     tag: "",
   });
   return (
@@ -44,12 +44,12 @@ export default function Articles({ articles, categories }: Props) {
         </p>
       </div>
       {/* filter */}
-      <section className="flex border-b-2 border-gray-200 pb-3 mb-10 transition-all duration-500 ease-in-out">
+      <section className="flex border-b-2 border-gray-200 pb-3 mb-10 transition-all duration-500 ease-in-out gap-2 overflow-auto">
         {categories.map((category, index) => (
           <h2
             key={category}
             className={cn(
-              "text-xs md:text-sm font-bold text-gray-600 mx-2 px-3 py-1 transition-transform duration-500",
+              "text-xs md:text-sm font-bold text-gray-600 px-3 py-1 transition-transform duration-500 whitespace-nowrap",
               roboto.className,
               filter.category === category &&
                 "text-white/80 bg-primary rounded-sm"
@@ -62,7 +62,7 @@ export default function Articles({ articles, categories }: Props) {
           </h2>
         ))}
       </section>
-      <article className="grid grid-col-1 md:grid-cols-4 gap-2">
+      <article className="grid grid-cols-1 md:grid-cols-4 gap-2">
         {articles.map((article, index) => (
           <Article data={article} key={index} />
         ))}
