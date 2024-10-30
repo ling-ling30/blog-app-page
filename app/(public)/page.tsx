@@ -1,9 +1,5 @@
-"use client";
-import Image from "next/image";
-import Article from "./_components/Article";
-import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
-import { roboto } from "@/components/font";
+import Articles from "./_components/Articles";
+import WelcomeHero from "./_components/WelcomeHero";
 const data = [
   {
     id: 1,
@@ -64,31 +60,11 @@ const categories = [
   "Maintainence",
 ];
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("View All");
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between py-24 px-5 md:p-24">
-      <section className="flex border-b-2 border-gray-200 pb-3 mb-10">
-        {categories.map((category, index) => (
-          <h2
-            key={category}
-            className={cn(
-              "text-xs md:text-sm font-bold text-gray-600 mx-2 transition-transform duration-500",
-              roboto.className,
-              selectedCategory === category &&
-                "text-primary pb-3 border-b-2 border-gray-600"
-            )}
-            onClick={() => setSelectedCategory(category)}
-          >
-            {category}
-          </h2>
-        ))}
-      </section>
-      <article className="grid grid-col-1 md:grid-cols-2 gap-2">
-        {data.map((item, index) => (
-          <Article data={item} key={index} />
-        ))}
-      </article>
-      Hello
+    <main className="">
+      <WelcomeHero />
+
+      <Articles articles={data} categories={categories} />
     </main>
   );
 }
