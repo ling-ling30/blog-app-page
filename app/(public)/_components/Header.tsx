@@ -61,7 +61,9 @@ export default function Header() {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span className={cn("font-bold text-md", roboto.className)}>
+              <span
+                className={cn("font-bold text-xs md:text-md", roboto.className)}
+              >
                 Tanya Mekanik
               </span>
             </Link>
