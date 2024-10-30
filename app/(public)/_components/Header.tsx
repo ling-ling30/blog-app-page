@@ -31,7 +31,7 @@ export default function Header() {
   return (
     <header
       className={cn(
-        "fixed w-full z-10 transition-all duration-300 shadow-sm",
+        "fixed w-full z-10 transition-all duration-300 bg-white/20",
         scrollY > 50 &&
           "bg-white/70 dark:bg-gray-900/70 backdrop-blur-md shadow-sm"
       )}
@@ -70,11 +70,11 @@ export default function Header() {
 
           {/* Accessibility */}
           <div className="flex items-center space-x-2">
-            <Input />
+            <Input className=" shadow-none border-primary" />
             <Button
               variant="outline"
               size="icon"
-              className="text-primary-foreground hover:text-accent-foreground hover:bg-primary-foreground"
+              className="border-primary text-primary-foreground hover:text-accent-foreground hover:bg-accent-foreground"
               aria-label="Search"
             >
               <Search className="h-5 w-5 text-primary" />
