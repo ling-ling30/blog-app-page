@@ -1,44 +1,39 @@
-import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
+import { auth } from "@/auth";
 import {
+  DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
   authRoute,
-  DEFAULT_LOGIN_REDIRECT,
   publicRoutes,
-} from "./routes";
+} from "@/routes";
+import { NextResponse } from "next/server";
 
-// This function can be marked `async` if using `await` inside
-export function middleware(req: NextRequest) {
+export default auth((req) => {
   const { nextUrl } = req;
-  const isLoggedin = !!req.cookies.get("tamiya");
+  console.log(req.auth);
+  const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoute.includes(nextUrl.pathname);
 
   if (isApiAuthRoute) {
-    return;
-  }
-
-  if (isPublicRoute) {
-    return;
+    return NextResponse.next();
   }
 
   if (isAuthRoute) {
-    if (isLoggedin) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+    if (isLoggedIn) {
+      return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
-    return;
+    return NextResponse.next();
   }
 
-  if (!isLoggedin && !isPublicRoute) {
-    return Response.redirect(new URL("/auth/login", nextUrl));
+  if (!isLoggedIn && !isPublicRoute) {
+    return NextResponse.redirect(new URL("/admin/login", nextUrl));
   }
 
-  return;
-}
+  return NextResponse.next();
+});
 
-// Optionally, don't invoke Middleware on some paths
 export const config = {
-  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };
