@@ -1,8 +1,6 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { verifyUser } from "./actions/login";
-// import { poster } from "./lib/fetcher";
-// require("dotenv").config();
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -20,6 +18,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         let user = null;
 
         const data = await verifyUser(username as string, password as string);
+        console.log(data);
         if (!!data) {
           user = data;
         }
@@ -46,4 +45,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
   secret: process.env.AUTH_SECRET,
+  session: {
+    strategy: "jwt",
+  },
 });

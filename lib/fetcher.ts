@@ -26,6 +26,7 @@ const getToken = async (): Promise<string> => {
   tokenPromise = (async () => {
     try {
       const session = await getSession();
+      console.log(session);
       const token = await generateJWT(session);
 
       tokenCache = {
@@ -200,23 +201,6 @@ export const deleter = async (url: string, payload?: unknown) => {
         },
         cache: "no-store",
         body: JSON.stringify(payload),
-        credentials: "include",
-      });
-    return await handleRequest(request);
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-export const authChecker = async () => {
-  try {
-    const request = () =>
-      fetch(api_url!, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "no-store",
         credentials: "include",
       });
     return await handleRequest(request);
