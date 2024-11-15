@@ -21,7 +21,7 @@ import { login } from "@/actions/login";
 
 type Props = {};
 
-export const LoginSchema = z.object({
+const LoginSchema = z.object({
   username: z.string(),
   password: z.string(),
 });

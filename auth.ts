@@ -15,12 +15,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
         const { username, password } = credentials;
-
+        console.log(username, password);
         credentials.username;
         let user = null;
 
         const data = await verifyUser(username as string, password as string);
-
         if (!!data) {
           user = data;
         }
