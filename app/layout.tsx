@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import { noto_sans } from "@/components/font";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import { Toaster } from "sonner";
+import { Toaster as Toaster2 } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Tanya Mekanik",
@@ -21,6 +23,8 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={cn(noto_sans.className)}>
+        <Toaster />
+        <Toaster2 />
         <SessionProvider session={session}>{children}</SessionProvider>
       </body>
     </html>

@@ -13,12 +13,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
         const { username, password } = credentials;
-        console.log(username, password);
         credentials.username;
         let user = null;
 
         const data = await verifyUser(username as string, password as string);
-        console.log(data);
         if (!!data) {
           user = data;
         }
@@ -36,11 +34,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
     async jwt(params) {
-      // console.log(params);
       return params.token;
     },
     async session(params) {
-      // console.log(params);
       return params.session;
     },
   },

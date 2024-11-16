@@ -4,6 +4,7 @@ export interface Post {
   slug: string;
   content: string;
   excerpt: string;
+  status: string;
   featuredImageUrl: string;
   viewCount: number;
   publishedAt: number;

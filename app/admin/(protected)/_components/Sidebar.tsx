@@ -1,4 +1,13 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import {
+  Calendar,
+  Paperclip,
+  Inbox,
+  Search,
+  Settings,
+  SquareMenu,
+  PlusCircleIcon,
+  ThumbsUpIcon,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -15,19 +24,19 @@ import LogOutButton from "@/components/logOutButton";
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
+    title: "Tulis Artikel Baru",
+    url: "/admin/new-post",
+    icon: PlusCircleIcon,
   },
   {
-    title: "Inbox",
+    title: "Draft",
     url: "#",
-    icon: Inbox,
+    icon: SquareMenu,
   },
   {
-    title: "Calendar",
+    title: "Published",
     url: "#",
-    icon: Calendar,
+    icon: ThumbsUpIcon,
   },
   {
     title: "Search",
