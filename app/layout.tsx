@@ -8,6 +8,8 @@ import { auth } from "@/auth";
 import { Toaster } from "sonner";
 import { Toaster as Toaster2 } from "@/components/ui/toaster";
 
+export const runtime = "edge"; // 'nodejs' (default) | 'edge'
+
 export const metadata: Metadata = {
   title: "Tanya Mekanik",
   description: "Solusi untuk masalah automotive anda.",

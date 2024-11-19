@@ -1,4 +1,7 @@
 "use client";
+
+export const runtime = "edge"; // 'nodejs' (default) | 'edge'
+
 import React, { useState, useTransition } from "react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
