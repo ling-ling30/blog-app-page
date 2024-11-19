@@ -1,3 +1,5 @@
+"use client";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Header from "./_components/Header";
 
 export default function Layout({
@@ -5,10 +7,13 @@ export default function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const queryClient = new QueryClient();
   return (
     <>
-      <Header />
-      {children}
+      <QueryClientProvider client={queryClient}>
+        <Header />
+        {children}
+      </QueryClientProvider>
     </>
   );
 }

@@ -1,61 +1,94 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import Image from "next/image";
+import { Card } from "@/components/ui/card";
+import { Post, PreviewPost } from "@/type";
 import React from "react";
-
+import { Badge } from "@/components/ui/badge";
+import { CalendarIcon, EyeIcon, TagIcon, UserIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { HtmlRenderer } from "@/components/RenderHTMLString";
 type Props = {
-  data: {
-    id: number;
-    title: string;
-    description: string;
-    image: string;
-    date: string;
-    author: string;
-    category: string;
-    tags: string[];
-  };
+  article?: Post;
+  preview?: PreviewPost;
 };
 
-export default function Article({ data }: Props) {
-  return (
-    <Card className="max-w-sm">
-      <Image
-        src={data.image}
-        alt={data.title}
-        width={1000}
-        height={1000}
-        className="rounded-md object-fill"
-      />
-      <div className="flex flex-col justify-between gap-y-2 p-2 md:p-4">
-        <div className="flex items-center gap-x-2">
-          <span className="text-xs font-medium text-muted-foreground">
-            {data.date}
-          </span>
-          <span className="text-xs font-medium text-muted-foreground">
-            {data.author}
-          </span>
+export default function Article({ article, preview }: Props) {
+  const Article = () => {
+    if (!article) return;
+    return (
+      <article className="max-w-2xl mx-auto px-4 py-8 text-black">
+        <header className="mb-8 text-center">
+          <h1 className="text-4xl font-bold mb-2">{article.title}</h1>
+          <div className="flex justify-center items-center text-sm text-muted-foreground gap-4">
+            <div className="flex items-center">
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              <time dateTime="2023-11-18">
+                {new Date().toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </time>
+            </div>
+          </div>
+        </header>
+        {article.featuredImageUrl ? (
+          <img
+            src={article.featuredImageUrl}
+            alt="First blog post cover image"
+            width={700}
+            height={300}
+            className="rounded-lg object-cover w-full mb-8"
+          />
+        ) : null}
+
+        <div className="prose prose-lg dark:prose-invert max-w-none">
+          <HtmlRenderer htmlString={article.content || ""} />
         </div>
-      </div>
-      <CardHeader className="w-full p-2 md:p-6">
-        <h2 className="text-xl font-bold">{data.title}</h2>
-      </CardHeader>
-      <CardContent className="p-2 md:p-6 text-xs md:text-sm">
-        <p className="text-muted-foreground">{data.description}</p>
-      </CardContent>
-      <CardFooter className="p-2 md:p-6 text-xs md:text-sm">
-        <div className="flex items-center gap-x-2">
-          <span className="font-medium text-muted-foreground">
-            {data.category}
-          </span>
-          <span className="font-medium text-muted-foreground">
-            {data.tags.join(", ")}
-          </span>
+      </article>
+    );
+  };
+  const Preview = () => {
+    if (!preview) return;
+    let imageUrl;
+    if (preview.featuredImageUrl) {
+      if (typeof preview.featuredImageUrl === "string") {
+        imageUrl = preview.featuredImageUrl;
+      } else if (preview.featuredImageUrl instanceof File) {
+        imageUrl = URL.createObjectURL(preview.featuredImageUrl);
+      }
+    }
+    return (
+      <article className="max-w-2xl mx-auto px-4 py-8 text-black">
+        <header className="mb-8 text-center">
+          <h1 className="text-4xl font-bold mb-2">{preview.title}</h1>
+          <div className="flex justify-center items-center text-sm text-muted-foreground gap-4">
+            <div className="flex items-center">
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              <time dateTime="2023-11-18">
+                {new Date().toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </time>
+            </div>
+          </div>
+        </header>
+        {/* handle featuredImage if it is a string, file or null */}
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt="Cover image for blog post"
+            width={800}
+            height={400}
+            className="rounded-lg object-cover w-full"
+          />
+        ) : null}
+        <div className="prose prose-lg dark:prose-invert max-w-none">
+          <HtmlRenderer htmlString={preview.content || ""} />
         </div>
-      </CardFooter>
-    </Card>
-  );
+      </article>
+    );
+  };
+  return <>{preview ? <Preview /> : <Article />}</>;
 }

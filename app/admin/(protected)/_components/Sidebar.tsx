@@ -25,12 +25,12 @@ import LogOutButton from "@/components/logOutButton";
 const items = [
   {
     title: "Tulis Artikel Baru",
-    url: "/admin/new-post",
+    url: "/admin/articles/untitled",
     icon: PlusCircleIcon,
   },
   {
-    title: "Draft",
-    url: "#",
+    title: "/admin/articles",
+    url: "/admin/articles",
     icon: SquareMenu,
   },
   {

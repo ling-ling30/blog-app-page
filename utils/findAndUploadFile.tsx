@@ -1,4 +1,4 @@
-import { uploader } from "@/lib/fetcher";
+import { FILE_BASE_URL, uploader } from "@/lib/fetcher";
 
 export async function UploadFileAndReplaceWithName(obj: Record<string, any>) {
   const convertedObj: any = {};
@@ -10,13 +10,15 @@ export async function UploadFileAndReplaceWithName(obj: Record<string, any>) {
       if (value instanceof File) {
         // Upload the file and get the new file name (same logic as before)
         try {
-          const uploadFileRequest = await uploader("/upload-svc", value);
+          const uploadFileRequest = await uploader(value);
           if (uploadFileRequest.status !== 200) {
             return false;
           } else {
             const response: { data: string } = await uploadFileRequest.json();
             const filename = response.data;
-            convertedObj[key] = filename;
+            convertedObj[
+              key
+            ] = `https://pub-4a63f2a777414973af0945f89596da80.r2.dev/${response.data}`;
           }
         } catch (error) {
           console.error(error);
@@ -29,13 +31,13 @@ export async function UploadFileAndReplaceWithName(obj: Record<string, any>) {
             if (item instanceof File) {
               // Upload file and replace with filename
               try {
-                const uploadFileRequest = await uploader("/upload-svc", item);
+                const uploadFileRequest = await uploader(item);
                 if (uploadFileRequest.status !== 200) {
                   throw new Error("File upload failed");
                 } else {
                   const response: { data: string } =
                     await uploadFileRequest.json();
-                  const filename = response.data;
+                  const filename = `https://pub-4a63f2a777414973af0945f89596da80.r2.dev/${response.data}`;
                   return filename;
                 }
               } catch (error) {

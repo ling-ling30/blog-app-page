@@ -1,17 +1,26 @@
 import { toast } from "@/hooks/use-toast";
 import { getToken } from "./token";
+import { auth } from "@/auth";
 
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 type ErrorResponse = {
   error: string;
 };
+export const FILE_BASE_URL = process.env.NEXT_PUBLIC_STORAGE_URL;
 
 export const fetcher = async <T>(
   endpoint: string,
   params?: Record<string, any>
 ): Promise<T> => {
-  const queryString = params
-    ? `?${new URLSearchParams(params).toString()}`
+  // Filter out undefined params
+  const filteredParams = params
+    ? Object.fromEntries(
+        Object.entries(params).filter(([_, value]) => value !== undefined)
+      )
+    : {};
+
+  const queryString = Object.keys(filteredParams).length
+    ? `?${new URLSearchParams(filteredParams).toString()}`
     : "";
 
   const response = await fetch(`${API_BASE_URL}${endpoint}${queryString}`, {
@@ -34,8 +43,16 @@ export const authenticatedFetcher = async <T>(
   params?: Record<string, any>
 ): Promise<T> => {
   const token = await getToken();
-  const queryString = params
-    ? `?${new URLSearchParams(params).toString()}`
+
+  // Filter out undefined params
+  const filteredParams = params
+    ? Object.fromEntries(
+        Object.entries(params).filter(([_, value]) => value !== undefined)
+      )
+    : {};
+
+  const queryString = Object.keys(filteredParams).length
+    ? `?${new URLSearchParams(filteredParams).toString()}`
     : "";
 
   const response = await fetch(`${API_BASE_URL}${endpoint}${queryString}`, {
@@ -97,19 +114,17 @@ export const putter = async <T>(endpoint: string, data: any): Promise<T> => {
   return response.json();
 };
 
-export const uploader = async (
-  endpoint: string,
-  payload?: any
-): Promise<Response> => {
+export const uploader = async (payload?: any): Promise<Response> => {
   try {
     const token = await getToken();
 
     const formData = new FormData();
     formData.append("file", payload);
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    const response = await fetch(`${API_BASE_URL}/upload`, {
       method: "POST",
       headers: {
-        Authorization: token ? `Bearer ${token}` : "", // Include the token in the Authorization header
+        Authorization: token ? `${token}` : "", // Include the token in the Authorization header
+        // "Content-Type": "multipart/form-data",
       },
       body: formData,
       credentials: "include",
@@ -120,7 +135,7 @@ export const uploader = async (
       throw new Error(error.error || `HTTP error! status: ${response.status}`);
     }
 
-    return response.json();
+    return response;
   } catch (error) {
     console.error(error);
     throw error;

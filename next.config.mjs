@@ -10,7 +10,27 @@ if (process.env.NODE_ENV === "development") {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["via.assets.so", "placecats.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: 'via.assets.so"',
+        port: "",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: 'placecats.com"',
+        port: "",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "pub-4a63f2a777414973af0945f89596da80.r2.dev",
+        port: "",
+        pathname: "**",
+      },
+    ],
+    formats: ["image/avif", "image/webp"],
   },
 };
 
