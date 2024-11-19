@@ -93,7 +93,7 @@ export default function ArticleList() {
     );
   }
 
-  if (!posts || posts.length === 0) {
+  if (!posts) {
     return (
       <Card>
         <CardHeader>
@@ -148,6 +148,11 @@ export default function ArticleList() {
 
           {/* Articles List */}
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {posts.length === 0 && (
+              <p className="text-gray-500">
+                No blog posts available at the moment.
+              </p>
+            )}
             {posts.map((post) => (
               <Article key={post.id} article={post} />
             ))}
