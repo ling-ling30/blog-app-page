@@ -1,4 +1,6 @@
 "use client";
+export const runtime = "edge"; // 'nodejs' (default) | 'edge'
+
 import React, { useState, useMemo } from "react";
 import { debounce } from "lodash";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";

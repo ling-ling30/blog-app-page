@@ -11,6 +11,7 @@ import type { Post, Category, Tag } from "@/type";
 import { toast } from "sonner";
 import { z } from "zod";
 import { createPostSchema } from "@/app/admin/(protected)/articles/[slug]/_components/ArticleForm";
+export const runtime = "edge"; // 'nodejs' (default) | 'edge'
 
 const TAG_QUERY_KEY = "tags";
 const CATEGORY_QUERY_KEY = "categories";

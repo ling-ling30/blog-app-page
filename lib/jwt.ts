@@ -1,6 +1,5 @@
 import * as jose from "jose";
-require("dotenv").config();
-export const jwtSecret = process.env.JWT_SECRET as any;
+export const runtime = "edge"; // 'nodejs' (default) | 'edge'
 
 export async function generateJWT(obj: any) {
   const secret = new TextEncoder().encode("JWT_SECRET");

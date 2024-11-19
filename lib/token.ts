@@ -1,5 +1,6 @@
 import { getSession } from "next-auth/react";
 import { generateJWT } from "./jwt";
+export const runtime = "edge"; // 'nodejs' (default) | 'edge'
 
 interface TokenCache {
   token: string;
