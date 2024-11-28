@@ -25,12 +25,12 @@ const ReactQuill = dynamic(
 );
 
 interface TextEditorProps {
-  value: string;
+  value?: string;
   onChange: (value: string) => void;
 }
 
 function TextEditor({ value: initialValue, onChange }: TextEditorProps) {
-  const [value, setValue] = useState<string>(initialValue || "");
+  const [value, setValue] = useState<string | undefined>(initialValue || "");
   const [quillInstance, setQuillInstance] = useState<QuillType>(null);
 
   useEffect(() => {

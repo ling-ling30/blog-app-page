@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import TextEditor from "./TextEditor";
 import { Textarea } from "@/components/ui/textarea";
 import { SingleImageUploader } from "@/components/SingleImageUploader";
-import { useCreatePost, useUpdatePost } from "@/data/admin";
+import { useCreatePost, usePublishPost, useUpdatePost } from "@/data/admin";
 import Image from "next/image";
 import TagSelector from "./TagSelector";
 import CategorySelector from "./CategorySelector";
@@ -31,15 +31,23 @@ import { InputPreview } from "./Preview";
 export const createPostSchema = z.object({
   id: z.string().optional(),
   title: z.string().min(1).max(255),
-  content: z.string().min(1, "Content cannot be empty"),
-  excerpt: z.string().max(255).optional(),
+  content: z.string().optional(),
+  excerpt: z.string().optional(),
   featuredImageUrl: z.any().optional(),
   status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]),
   categoryIds: z
-    .array(z.object({ id: z.number(), name: z.string(), slug: z.string() }))
+    .array(
+      z
+        .object({ id: z.number(), name: z.string(), slug: z.string() })
+        .optional()
+    )
     .optional(),
   tagIds: z
-    .array(z.object({ id: z.number(), name: z.string(), slug: z.string() }))
+    .array(
+      z
+        .object({ id: z.number(), name: z.string(), slug: z.string() })
+        .optional()
+    )
     .optional(),
 });
 
@@ -53,6 +61,7 @@ function ArticleForm({ article }: Props) {
 
   const create = useCreatePost();
   const update = useUpdatePost();
+  const publish = usePublishPost(article?.slug || "");
 
   const [openPreview, setOpenPreview] = useState<boolean>(false);
 
@@ -70,8 +79,6 @@ function ArticleForm({ article }: Props) {
       : {
           title: "Untitled",
           status: "DRAFT",
-          tagIds: [],
-          categoryIds: [],
         },
   });
 
@@ -112,35 +119,21 @@ function ArticleForm({ article }: Props) {
   }
 
   async function handlePublish() {
-    const finalInput = await UploadFileAndReplaceWithName(form.getValues());
+    const finalInput: z.infer<typeof createPostSchema> =
+      await UploadFileAndReplaceWithName(form.getValues());
 
     startTransition(() => {
-      if (finalInput.id) {
-        update
-          .mutateAsync(finalInput)
-          .then((data) => {
-            toast.success("Article berhasil Disimpan!");
-            const slug = data.data.slug;
-            router.push(`/admin/articles/${slug}`);
-          })
-          .catch((error) => {
-            console.error(error);
-            toast.error("Error: " + error.message);
-          });
-      } else {
-        create
-          .mutateAsync(finalInput)
-          .then((data) => {
-            toast.success("Article berhasil Disimpan!");
-            const slug = data.data.slug;
-            router.push(`/admin/articles/${slug}`);
-          })
-
-          .catch((error) => {
-            console.error(error);
-            toast.error("Error: " + error.message);
-          });
-      }
+      publish
+        .mutateAsync(finalInput.id!)
+        .then((data) => {
+          toast.success("Article berhasil Disimpan!");
+          const slug = data.data.slug;
+          router.push(`/admin/articles/${slug}`);
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error("Error: " + error.message);
+        });
     });
   }
 
@@ -236,19 +229,17 @@ function ArticleForm({ article }: Props) {
             )}
           />
 
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-2">
             <Button disabled={isPending} type="submit">
               Simpan
             </Button>
-            <InputPreview
-              onSubmit={handlePublish}
-              openPreview={openPreview}
-              setOpenPreview={setOpenPreview}
-            />
-            {article?.status === "PUBLISHED" && (
-              <Button disabled={isPending} type="submit">
-                Update
-              </Button>
+
+            {article?.status === "DRAFT" && (
+              <InputPreview
+                onSubmit={handlePublish}
+                openPreview={openPreview}
+                setOpenPreview={setOpenPreview}
+              />
             )}
           </div>
         </form>

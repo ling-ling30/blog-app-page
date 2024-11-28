@@ -33,21 +33,6 @@ const items = [
     url: "/admin/articles",
     icon: SquareMenu,
   },
-  {
-    title: "Published",
-    url: "#",
-    icon: ThumbsUpIcon,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
 ];
 
 export function AppSidebar() {

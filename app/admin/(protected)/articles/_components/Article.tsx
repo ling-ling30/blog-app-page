@@ -1,15 +1,35 @@
 import { Card } from "@/components/ui/card";
 import { Post } from "@/type";
-import React from "react";
+import React, { useTransition } from "react";
 import { Badge } from "@/components/ui/badge";
-import { CalendarIcon, EyeIcon, TagIcon } from "lucide-react";
+import { CalendarIcon, EyeIcon, TagIcon, TrashIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { useDeletePost } from "@/data/admin";
+import { toast } from "sonner";
 type Props = {
   article: Post;
 };
 
 export default function Article({ article }: Props) {
+  const deletePost = useDeletePost(article.slug);
+  const [isPending, startTransition] = useTransition();
+
+  const handleDelete = () => {
+    console.log("delete", article.id);
+    startTransition(() => {
+      deletePost
+        .mutateAsync(article.id)
+        .then((data) => {
+          toast.success("Article berhasil dihapus!");
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error("Error: " + error.message);
+        });
+    });
+  };
   return (
     <div className="bg-card rounded-lg shadow-md overflow-hidden">
       {article.featuredImageUrl ? (
@@ -79,6 +99,14 @@ export default function Article({ article }: Props) {
           >
             {article.status}
           </Badge>
+          <Button
+            onClick={handleDelete}
+            variant="outline"
+            size="sm"
+            disabled={isPending}
+          >
+            <TrashIcon />
+          </Button>
         </div>
       </div>
     </div>

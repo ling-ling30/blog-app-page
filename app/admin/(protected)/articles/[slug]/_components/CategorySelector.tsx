@@ -29,6 +29,8 @@ import {
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import LoadingOverlay from "@/components/ui/loading-overlay";
+import { Loader2 } from "lucide-react";
 
 type Props = {};
 
@@ -89,7 +91,7 @@ export default function CategorySelector({}: Props) {
     name: "categoryIds",
   });
   if (query.isLoading) {
-    return "loading";
+    return <Loader2 className="w-8 h-8 animate-spin text-primary" />;
   }
 
   if (query.isError) {

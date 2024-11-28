@@ -16,9 +16,7 @@ export async function UploadFileAndReplaceWithName(obj: Record<string, any>) {
           } else {
             const response: { data: string } = await uploadFileRequest.json();
             const filename = response.data;
-            convertedObj[
-              key
-            ] = `https://pub-4a63f2a777414973af0945f89596da80.r2.dev/${response.data}`;
+            convertedObj[key] = `${FILE_BASE_URL}/${response.data}`;
           }
         } catch (error) {
           console.error(error);
@@ -37,7 +35,7 @@ export async function UploadFileAndReplaceWithName(obj: Record<string, any>) {
                 } else {
                   const response: { data: string } =
                     await uploadFileRequest.json();
-                  const filename = `https://pub-4a63f2a777414973af0945f89596da80.r2.dev/${response.data}`;
+                  const filename = `${FILE_BASE_URL}/${response.data}`;
                   return filename;
                 }
               } catch (error) {

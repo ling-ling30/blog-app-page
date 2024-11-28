@@ -3,10 +3,12 @@ import { getToken } from "./token";
 import { auth } from "@/auth";
 
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 type ErrorResponse = {
   error: string;
 };
-export const FILE_BASE_URL = process.env.NEXT_PUBLIC_STORAGE_URL;
+// export const FILE_BASE_URL = `https://pub-1bd0625de5ff463ebcb87a8c8784d7e7.r2.dev`;
+export const FILE_BASE_URL = `https://pub-4a63f2a777414973af0945f89596da80.r2.dev`;
 
 export const fetcher = async <T>(
   endpoint: string,
@@ -140,4 +142,23 @@ export const uploader = async (payload?: any): Promise<Response> => {
     console.error(error);
     throw error;
   }
+};
+
+export const deleter = async <T>(endpoint: string): Promise<T> => {
+  const token = await getToken();
+
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: token || "",
+    },
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const error: ErrorResponse = await response.json();
+    throw new Error(error.error || `HTTP error! status: ${response.status}`);
+  }
+
+  return response.json();
 };

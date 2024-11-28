@@ -5,7 +5,7 @@ import {
   QueryClient,
   UseQueryOptions,
 } from "@tanstack/react-query";
-import { authenticatedFetcher, poster, putter } from "@/lib/fetcher";
+import { authenticatedFetcher, deleter, poster, putter } from "@/lib/fetcher";
 import type { Post, Category, Tag } from "@/type";
 
 import { toast } from "sonner";
@@ -186,6 +186,59 @@ export const useUpdatePost = () => {
     onError: (error) => {
       console.error("Failed to update post:", error);
       // You can add toast notifications or other error handling here
+    },
+  });
+};
+
+export const usePublishPost = (slug: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: [ADMIN_POSTS_QUERY_KEY, slug],
+    mutationFn: async (id: string) => {
+      const res = putter<{ mesasge: string; data: Post }>(
+        `/posts/${id}/publish`,
+        {}
+      );
+      return res;
+      // Optionally update specific post in cache
+    },
+
+    onError: (error) => {
+      console.error("Failed to publish post:", error);
+      // You can add toast notifications or other error handling here
+    },
+    onSuccess: (data, variables) => {
+      // Invalidate relevant queries
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["public-posts"] });
+
+      // Optionally update specific post in cache
+      queryClient.setQueryData(["post", data.data.slug], data.data);
+    },
+  });
+};
+
+export const useDeletePost = (slug: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: [ADMIN_POSTS_QUERY_KEY, slug],
+    mutationFn: async (id: string) => {
+      const res = deleter<{ mesasge: string; data: Post }>(`/posts/${id}`);
+      return res;
+      // Optionally update specific post in cache
+    },
+
+    onError: (error) => {
+      console.error("Failed to delete post:", error);
+      // You can add toast notifications or other error handling here
+    },
+    onSuccess: (data, variables) => {
+      // Invalidate relevant queries
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["public-posts"] });
+
+      // Optionally update specific post in cache
+      queryClient.setQueryData(["post", data.data.slug], data.data);
     },
   });
 };

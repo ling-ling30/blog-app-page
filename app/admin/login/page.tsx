@@ -21,6 +21,13 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import FormError from "@/components/form/form-error";
 import { login } from "@/actions/login";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 type Props = {};
 
@@ -53,65 +60,76 @@ const LoginForm = (props: Props) => {
   }
 
   return (
-    <Form {...form}>
-      <form
-        autoComplete="off"
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8"
-      >
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  className="w-[250px] sm:w-[450px] md:w-[500px] lg:w-[600px]"
-                  placeholder="Please enter your email/username"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  autoCapitalize="off"
-                  spellCheck="false"
-                  name={`prevent-autofill-${Math.random()}`}
-                  onFocus={(e) => e.target.setAttribute("autocomplete", "off")}
-                />
-              </FormControl>
-              <FormDescription></FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Please enter your password"
-                  {...field}
-                  autoComplete="new-password"
-                  name={`prevent-autofill-${Math.random()}`}
-                  onFocus={(e) =>
-                    e.target.setAttribute("autocomplete", "new-password")
-                  }
-                />
-              </FormControl>
-              <FormDescription></FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {error && <FormError message={error} />}
-        <Button disabled={isPending} size={"sm"} type="submit">
-          Submit
-        </Button>
-      </form>
-    </Form>
+    <main className="flex items-center justify-center min-h-screen px-4 py-12 sm:px-6 lg:px-8">
+      <Card className="w-full max-w-2xl">
+        <CardContent>
+          <CardHeader>
+            <CardTitle className="text-center text-2xl">Login</CardTitle>
+          </CardHeader>
+          <Form {...form}>
+            <form
+              autoComplete="off"
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8 "
+            >
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className=""
+                        placeholder="Please enter your email/username"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        autoCapitalize="off"
+                        spellCheck="false"
+                        name={`prevent-autofill-${Math.random()}`}
+                        onFocus={(e) =>
+                          e.target.setAttribute("autocomplete", "off")
+                        }
+                      />
+                    </FormControl>
+                    <FormDescription></FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Please enter your password"
+                        {...field}
+                        autoComplete="new-password"
+                        name={`prevent-autofill-${Math.random()}`}
+                        onFocus={(e) =>
+                          e.target.setAttribute("autocomplete", "new-password")
+                        }
+                      />
+                    </FormControl>
+                    <FormDescription></FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {error && <FormError message={error} />}
+              <Button disabled={isPending} size={"sm"} type="submit">
+                Submit
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </main>
   );
 };
 

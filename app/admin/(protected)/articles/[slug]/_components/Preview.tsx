@@ -61,8 +61,8 @@ export function InputPreview({ onSubmit, openPreview, setOpenPreview }: Props) {
   return (
     <AlertDialog open={openPreview}>
       <AlertDialogTrigger asChild>
-        <Button className="h-8" onClick={handlePreviewClick}>
-          Preview
+        <Button className="" onClick={handlePreviewClick}>
+          Publish
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className=" max-w-screen-2xl max-h-[90vh] overflow-auto">

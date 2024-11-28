@@ -2,6 +2,8 @@
 import React from "react";
 import ArticleForm from "./_components/ArticleForm";
 import { useFetchPostBySlug } from "@/data/admin";
+import LoadingOverlay from "@/components/ui/loading-overlay";
+import { Loader2 } from "lucide-react";
 
 type Props = {
   params: {
@@ -12,9 +14,12 @@ type Props = {
 export default function Page({ params }: Props) {
   const post = useFetchPostBySlug(params.slug);
   if (post.isLoading) {
-    return "loading";
+    return <Loader2 className="w-8 h-8 animate-spin text-primary" />;
   }
   if (post.error) {
+    <ArticleForm article={null} />;
+  }
+  if (!post.data) {
     <ArticleForm article={null} />;
   }
   return (

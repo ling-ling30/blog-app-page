@@ -28,6 +28,8 @@ import {
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { useTags } from "@/data/admin";
+import LoadingOverlay from "@/components/ui/loading-overlay";
+import { Loader2 } from "lucide-react";
 
 type Props = {};
 
@@ -88,7 +90,7 @@ export default function TagSelector({}: Props) {
     name: "tagIds",
   });
   if (query.isLoading) {
-    return "loading";
+    return <Loader2 className="w-8 h-8 animate-spin text-primary" />;
   }
 
   if (query.isError) {
@@ -104,7 +106,7 @@ export default function TagSelector({}: Props) {
       name="title"
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="min-w-52">Kategori</FormLabel>
+          <FormLabel className="min-w-52">Tag</FormLabel>
           <FormControl>
             <section className="">
               <div className="flex items-center gap-2">
