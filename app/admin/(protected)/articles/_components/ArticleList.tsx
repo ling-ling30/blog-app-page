@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { PostsParams, SortField, SortOrder, useFetchPosts } from "@/data/admin";
-import Article from "./Article";
+import ArticleCard from "./ArticleCard";
 
 interface FilterState {
   search: string;
@@ -156,7 +156,7 @@ export default function ArticleList() {
               </p>
             )}
             {posts.map((post) => (
-              <Article key={post.id} article={post} />
+              <ArticleCard key={post.id} article={post} />
             ))}
           </div>
 

@@ -27,6 +27,7 @@ import { Post } from "@/type";
 import { UploadFileAndReplaceWithName } from "@/utils/findAndUploadFile";
 import { useRouter } from "next/navigation";
 import { InputPreview } from "./Preview";
+import { FILE_BASE_URL } from "@/lib/fetcher";
 
 export const createPostSchema = z.object({
   id: z.string().optional(),
@@ -75,6 +76,7 @@ function ArticleForm({ article }: Props) {
           tagIds: article.tags,
           categoryIds: article.categories,
           content: article.content,
+          featuredImageUrl: article.featuredImageUrl,
         }
       : {
           title: "Untitled",
@@ -126,7 +128,7 @@ function ArticleForm({ article }: Props) {
       publish
         .mutateAsync(finalInput.id!)
         .then((data) => {
-          toast.success("Article berhasil Disimpan!");
+          toast.success("Article berhasil dipulikasi!");
           const slug = data.data.slug;
           router.push(`/admin/articles/${slug}`);
         })
@@ -214,7 +216,7 @@ function ArticleForm({ article }: Props) {
                     className="w-[230px] sm:w-[450px] h-auto bg-white"
                     value={
                       typeof field.value === "string"
-                        ? `https://devcdn.outfits.id/${field.value}`
+                        ? field.value
                         : typeof field.value === "object"
                         ? field.value
                         : null
@@ -229,8 +231,12 @@ function ArticleForm({ article }: Props) {
             )}
           />
 
-          <div className="flex justify-end gap-2">
-            <Button disabled={isPending} type="submit">
+          <div className="flex justify-end gap-2 ">
+            <Button
+              disabled={isPending}
+              onClick={() => onSubmit(form.getValues())}
+              type="submit"
+            >
               Simpan
             </Button>
 

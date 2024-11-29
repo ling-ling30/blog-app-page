@@ -14,6 +14,12 @@ export const usePublicPosts = (params?: {
     queryFn: () => fetcher("/public/posts", params),
   });
 };
+export const usePublicPostBySlug = (slug: string) => {
+  return useQuery<Post>({
+    queryKey: ["public-posts", slug],
+    queryFn: () => fetcher(`/public/posts/${slug}`),
+  });
+};
 
 export const usePublicCategories = () => {
   return useQuery<Category[]>({

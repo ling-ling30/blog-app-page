@@ -156,6 +156,7 @@ const SingleImageUploader = React.forwardRef<HTMLInputElement, InputProps>(
             <Image
               className="w-full h-full rounded-md object-contain"
               src={imageUrl}
+              unoptimized
               alt={acceptedFiles[0]?.name || "uploaded File"}
               width={1000}
               height={1000}

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { roboto } from "@/components/font";
 import { Category, Post } from "@/type";
+import ArticleCard from "./ArticleCard";
 
 type Props = {
   articles: Post[];
@@ -60,7 +61,7 @@ export default function Articles({ articles, categories }: Props) {
       <div className="container mx-auto px-4 py-8">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {articles.length > 0 ? (
-            articles.map((post) => <Article key={post.id} article={post} />)
+            articles.map((post) => <ArticleCard key={post.id} article={post} />)
           ) : (
             <div className="flex flex-col items-center justify-center">
               <h1 className="text-3xl font-bold mb-8">Tidak ada artikel</h1>

@@ -12,12 +12,11 @@ type Props = {
   article: Post;
 };
 
-export default function Article({ article }: Props) {
+export default function ArticleCard({ article }: Props) {
   const deletePost = useDeletePost(article.slug);
   const [isPending, startTransition] = useTransition();
 
   const handleDelete = () => {
-    console.log("delete", article.id);
     startTransition(() => {
       deletePost
         .mutateAsync(article.id)

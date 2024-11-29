@@ -23,8 +23,8 @@ export default function Page({ params }: Props) {
     <ArticleForm article={null} />;
   }
   return (
-    <>
+    <main className="py-5 px-5 max-w-2xl mx-auto">
       <ArticleForm article={post.data!} />
-    </>
+    </main>
   );
 }
