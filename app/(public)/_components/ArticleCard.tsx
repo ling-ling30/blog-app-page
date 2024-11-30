@@ -47,20 +47,20 @@ export default function ArticleCard({ article }: Props) {
             <div className="flex flex-wrap gap-2 mb-4">
               {article.categories && article.categories.length > 0 && (
                 <>
-                  {/* {article.categories.map((category) => (
-                  <Badge key={category.slug} variant="outline">
-                    {category.name}
-                  </Badge>
-                ))} */}
+                  {article.categories.map((category) => (
+                    <Badge key={category.slug} variant="outline">
+                      {category.name}
+                    </Badge>
+                  ))}
                 </>
               )}
               {article.tags && article.tags.length > 0 && (
                 <>
-                  {/* {article.tags.map((tag) => (
-                  <Badge key={tag.slug} variant="outline">
-                    {tag.name}
-                  </Badge>
-                ))} */}
+                  {article.tags.map((tag) => (
+                    <Badge key={tag.slug} variant="outline">
+                      {tag.name}
+                    </Badge>
+                  ))}
                 </>
               )}
             </div>

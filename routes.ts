@@ -3,11 +3,18 @@
  * These routes do not require authentication
  * @type {string[]}
  */
-export const publicRoutes = ["/"];
+export const publicRoutes = ["/", "/articles"];
+
+/**
+ * This is an array of route that accessible for authenticated user
+ * These routes will redirect unauthenticated user to /login
+ * @type {string[]}
+ */
+export const privateRoutes = ["/admin"];
 
 /**
  * This is an array of route that accessible for authentication
- * These routes will redirect logged in user to /settings
+ * These routes will redirect logged in user to /admin
  * @type {string[]}
  */
 export const authRoute = ["/admin/login"];

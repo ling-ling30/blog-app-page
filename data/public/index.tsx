@@ -3,15 +3,40 @@ import { Category, Post } from "@/type";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
-export const usePublicPosts = (params?: {
+export const usePublicPosts = (options?: {
+  title?: string;
   categoryId?: number;
   tagId?: number;
   limit?: number;
   offset?: number;
 }) => {
+  const params = new URLSearchParams();
+
+  if (options?.title !== undefined) {
+    params.append("title", options.title);
+  }
+  if (options?.categoryId !== undefined) {
+    params.append("categoryId", options.categoryId.toString());
+  }
+
+  if (options?.tagId !== undefined) {
+    params.append("tagId", options.tagId.toString());
+  }
+
+  if (options?.limit !== undefined) {
+    params.append("limit", options.limit.toString());
+  }
+
+  if (options?.offset !== undefined) {
+    params.append("offset", options.offset.toString());
+  }
+
+  const paramsString = params.toString();
+  const url = paramsString ? `/public/posts?${paramsString}` : `/public/posts`;
+
   return useQuery<Post[]>({
-    queryKey: ["public-posts", params],
-    queryFn: () => fetcher("/public/posts", params),
+    queryKey: ["public-posts", options],
+    queryFn: () => fetcher(url),
   });
 };
 export const usePublicPostBySlug = (slug: string) => {
