@@ -57,7 +57,7 @@ function TextEditor({ value: initialValue, onChange }: TextEditorProps) {
 
         const file = files[0];
         const filename = await uploadFileTextEditor(file);
-        const url = `https://pub-4a63f2a777414973af0945f89596da80.r2.dev/${filename}`;
+        const url = `https://cdn.tanyamekanik.com/${filename}`;
 
         if (quillInstance) {
           const range = quillInstance.getSelection();

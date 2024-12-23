@@ -14,6 +14,7 @@ type Props = {
 export default function Article({ article, preview }: Props) {
   const Article = () => {
     if (!article) return;
+    const date = new Date(article.publishedAt * 1000);
     return (
       <article className="max-w-2xl mx-auto px-4 py-8 text-black">
         <header className="mb-8 text-center">
@@ -22,7 +23,7 @@ export default function Article({ article, preview }: Props) {
             <div className="flex items-center">
               <CalendarIcon className="mr-2 h-4 w-4" />
               <time dateTime="2023-11-18">
-                {new Date().toLocaleDateString("en-US", {
+                {date.toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "short",
                   day: "numeric",

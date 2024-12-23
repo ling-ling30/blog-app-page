@@ -7,8 +7,7 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 type ErrorResponse = {
   error: string;
 };
-// export const FILE_BASE_URL = `https://pub-1bd0625de5ff463ebcb87a8c8784d7e7.r2.dev`;
-export const FILE_BASE_URL = `https://pub-4a63f2a777414973af0945f89596da80.r2.dev`;
+export const FILE_BASE_URL = `https://cdn.tanyamekanik.com`;
 
 export const fetcher = async <T>(
   endpoint: string,

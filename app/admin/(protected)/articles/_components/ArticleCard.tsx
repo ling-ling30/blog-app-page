@@ -32,7 +32,7 @@ export default function ArticleCard({ article }: Props) {
   return (
     <div className="bg-card rounded-lg shadow-md overflow-hidden">
       {article.featuredImageUrl ? (
-        <img
+        <Image
           src={article.featuredImageUrl}
           alt={`Cover image for ${article.title}`}
           width={300}

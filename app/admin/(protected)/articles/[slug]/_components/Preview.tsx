@@ -48,10 +48,10 @@ export function InputPreview({ onSubmit, openPreview, setOpenPreview }: Props) {
     const result = await trigger();
     if (!result) {
       const { errors } = form.formState;
-      console.log("Form errors:", errors);
+      console.error("Form errors:", errors);
       // You can now check which specific fields have errors
       Object.keys(errors).forEach((fieldName: any) => {
-        console.log(`Field ${fieldName} has error:`, errors);
+        console.error(`Field ${fieldName} has error:`, errors);
       });
       toast.error("Mohon isi semua kolom yang ada");
     } else {

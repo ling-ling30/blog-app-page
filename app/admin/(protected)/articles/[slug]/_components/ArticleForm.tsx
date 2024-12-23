@@ -79,7 +79,7 @@ function ArticleForm({ article }: Props) {
           featuredImageUrl: article.featuredImageUrl,
         }
       : {
-          title: "Untitled",
+          title: "",
           status: "DRAFT",
         },
   });
@@ -129,8 +129,7 @@ function ArticleForm({ article }: Props) {
         .mutateAsync(finalInput.id!)
         .then((data) => {
           toast.success("Article berhasil dipulikasi!");
-          const slug = data.data.slug;
-          router.push(`/admin/articles/${slug}`);
+          router.push(`/admin/articles`);
         })
         .catch((error) => {
           console.error(error);

@@ -13,11 +13,12 @@ import {
 import NavigationMenu from "./NavigationMenu";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { roboto } from "@/components/font";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [scrollY, setScrollY] = useState(0);
-
+  const router = useRouter();
+  const [query, setQuery] = useState("");
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
@@ -40,57 +41,44 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
-              <svg
-                className="h-8 w-8 mr-2"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 4L3 9L12 14L21 9L12 4Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M3 14L12 19L21 14"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <span
-                className={cn("font-bold text-xs md:text-md", roboto.className)}
-              >
-                Tanya Mekanik
-              </span>
+              <p className=" uppercase font-bold">Tanya Mekanik</p>
             </Link>
           </div>
           <NavigationMenu />
 
           {/* Accessibility */}
-          <div className="flex items-center space-x-2">
-            <Input className=" shadow-none border-primary" />
-            <Button
-              variant="outline"
-              size="icon"
-              className="border-primary text-primary-foreground hover:text-accent-foreground hover:bg-accent-foreground"
-              aria-label="Search"
-            >
-              <Search className="h-5 w-5 text-primary" />
-            </Button>
 
-            <DropdownMenu>
+          <div className="flex items-center space-x-2">
+            <form className="flex items-center space-x-2">
+              <Input
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                }}
+                className="max-w-32 sm:max-w-xs shadow-none border-primary text-xs md:text-sm"
+              />
+              <Button
+                variant="outline"
+                size="icon"
+                className="border-primary text-primary-foreground hover:text-accent-foreground hover:bg-accent-foreground"
+                aria-label="Search"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const slug = query.replaceAll(" ", "-").toLowerCase();
+                  router.push(`/articles/search/${slug}`);
+                }}
+              >
+                <Search className="h-5 w-5 text-primary" />
+              </Button>
+            </form>
+            {/* <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-primary-foreground hover:text-accent-foreground md:hidden"
+                  className="border-[1px] border-black rounded-sm md:hidden"
                   aria-label="Menu"
                 >
-                  <Menu className="h-5 w-5" />
+                  <Menu className="h-5 w-5 text-black" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
@@ -107,7 +95,7 @@ export default function Header() {
                   <Link href="/contact">Contact</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
           </div>
         </div>
       </div>

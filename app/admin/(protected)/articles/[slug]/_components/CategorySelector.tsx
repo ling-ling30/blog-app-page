@@ -60,7 +60,7 @@ export default function CategorySelector({}: Props) {
           toast.success("Category berhasil ditambahkan!");
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           toast.error("Error: " + error.message);
         });
     });

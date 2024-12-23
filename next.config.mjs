@@ -13,6 +13,12 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "cdn.tanyamekanik.com",
+        port: "",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
         hostname: 'via.assets.so"',
         port: "",
         pathname: "**",
@@ -24,7 +30,7 @@ const nextConfig = {
         pathname: "**",
       },
       {
-        protocol: "https",
+        protocol: "http",
         hostname: "pub-4a63f2a777414973af0945f89596da80.r2.dev",
         port: "",
         pathname: "**",

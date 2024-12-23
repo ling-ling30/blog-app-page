@@ -3,7 +3,7 @@ import WelcomeHero from "./_components/WelcomeHero";
 
 export default function Home() {
   return (
-    <main className="">
+    <main className="max-w-full">
       <WelcomeHero />
       <Articles />
     </main>
