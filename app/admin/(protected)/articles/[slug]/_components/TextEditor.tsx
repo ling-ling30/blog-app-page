@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
 import { uploadFileTextEditor } from "./utils";
+import { FILE_BASE_URL } from "@/lib/fetcher";
 
 // Define the type for the Quill instance
 type QuillType = any; // We'll use any here since the types are tricky with dynamic import
@@ -57,7 +58,7 @@ function TextEditor({ value: initialValue, onChange }: TextEditorProps) {
 
         const file = files[0];
         const filename = await uploadFileTextEditor(file);
-        const url = `https://cdn.tanyamekanik.com/${filename}`;
+        const url = `${FILE_BASE_URL}/${filename}`;
 
         if (quillInstance) {
           const range = quillInstance.getSelection();

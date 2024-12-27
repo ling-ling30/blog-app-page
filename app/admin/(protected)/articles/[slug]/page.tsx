@@ -16,9 +16,7 @@ export default function Page({ params }: Props) {
   if (post.isLoading) {
     return <Loader2 className="w-8 h-8 animate-spin text-primary" />;
   }
-  if (post.error) {
-    <ArticleForm article={null} />;
-  }
+
   if (!post.data) {
     <ArticleForm article={null} />;
   }

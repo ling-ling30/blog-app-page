@@ -52,6 +52,7 @@ export const useFetchPosts = (
   const { data, isLoading, isError, isFetching, refetch } = useQuery<Post[]>({
     queryKey,
     queryFn: () => authenticatedFetcher("/posts", queryParams),
+    staleTime: 60 * 1000,
     placeholderData: (previousData, previousQuery) => previousData,
     ...options,
   });
@@ -83,6 +84,8 @@ export const useFetchPostBySlug = (slug: string) => {
   return useQuery<Post, Error>({
     queryKey: [ADMIN_POSTS_BY_SLUG_QUERY_KEY, slug],
     queryFn: fetchPost,
+    staleTime: 60 * 1000,
+
     enabled: !!slug, // Only run query if slug is provided
     retry: (failureCount, error) => {
       // Customize retry behavior
@@ -98,6 +101,8 @@ export const useCategories = () => {
   const queryClient = useQueryClient();
 
   const query = useQuery<Category[]>({
+    staleTime: 60 * 1000,
+
     queryKey: [CATEGORY_QUERY_KEY],
     queryFn: () => authenticatedFetcher("/categories"),
   });
@@ -130,6 +135,7 @@ export const useTags = () => {
   const query = useQuery<Tag[]>({
     queryKey: [TAG_QUERY_KEY],
     queryFn: () => authenticatedFetcher("/tags"),
+    staleTime: 60 * 1000,
   });
 
   const mutationFn = (input: { name: string }) => {
@@ -243,6 +249,7 @@ export const useDeletePost = (slug: string) => {
     },
   });
 };
+
 export type Settings = [
   { id: "about"; value: string },
   { id: "address"; value: string },

@@ -2,7 +2,6 @@
 export const runtime = "edge"; // 'nodejs' (default) | 'edge'
 
 import React, { useState, useMemo } from "react";
-import { debounce } from "lodash";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -14,6 +13,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { PostsParams, SortField, SortOrder, useFetchPosts } from "@/data/admin";
 import ArticleCard from "./ArticleCard";
+import { SearchLoading } from "@/app/(public)/articles/search/_components/SearchLoading";
+import { useMediaQuery } from "@mantine/hooks";
+import { debounce } from "@/utils/debounce";
 
 interface FilterState {
   search: string;
@@ -46,6 +48,8 @@ export default function ArticleList() {
     tagId: filter.tag,
   };
 
+  const matches = useMediaQuery("(min-width: 641px)");
+
   const { posts, isLoading, isError, isFetching } = useFetchPosts(params);
 
   // Debounced search handler
@@ -76,11 +80,7 @@ export default function ArticleList() {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-[200px]">
-        <div className="animate-spin text-2xl">⌛</div>
-      </div>
-    );
+    return <SearchLoading />;
   }
 
   if (isError) {
@@ -156,7 +156,7 @@ export default function ArticleList() {
               </p>
             )}
             {posts.map((post) => (
-              <ArticleCard key={post.id} article={post} />
+              <ArticleCard key={post.id} article={post} mobile={!matches} />
             ))}
           </div>
 

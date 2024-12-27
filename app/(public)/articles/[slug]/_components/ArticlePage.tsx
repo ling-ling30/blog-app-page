@@ -14,7 +14,6 @@ export default function Component({ data }: Props) {
         <div className="flex flex-wrap items-center text-sm text-muted-foreground gap-4">
           <div className="flex items-center">
             <UserIcon className="mr-2 h-4 w-4" />
-            {/* <span>{author}</span> */}
           </div>
           <div className="flex items-center">
             <CalendarIcon className="mr-2 h-4 w-4" />
@@ -25,7 +24,7 @@ export default function Component({ data }: Props) {
         </div>
       </header>
       <div className="mb-8">
-        <img
+        <Image
           src={featuredImageUrl}
           alt="Cover image for blog post"
           width={800}
