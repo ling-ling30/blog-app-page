@@ -11,6 +11,8 @@ import {
   usePublicPosts,
 } from "@/data/public";
 import { useMediaQuery, useViewportSize } from "@mantine/hooks";
+import { Loader2 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {};
 
@@ -48,15 +50,13 @@ export default function Articles({}: Props) {
     return "error";
   }
 
-  if (isLoading || !categories.data) {
-    return <LoadingOverlay isLoading={isLoading || categories.isLoading} />;
-  }
-
   return (
     <main className="flex-col justify-between px-3 py-4 space-y-6">
       {/* filter */}
-      <section className="flex border-b-2 border-gray-200 pb-3 mb-10 transition-all duration-500 ease-in-out gap-2 overflow-auto">
-        {categories.data.map((category, index) => (
+      <section className="flex border-b-2 border-gray-200 pb-3 mb-10 transition-all duration-500 ease-in-out gap-2 lg:gap-5 overflow-auto justify-center">
+        {categories.isLoading && <Skeleton className="w-full h-10" />}
+
+        {categories.data?.map((category, index) => (
           <h2
             key={category.name}
             className={cn(
@@ -83,58 +83,35 @@ export default function Articles({}: Props) {
           </h2>
         ))}
       </section>
-      {matches && (
-        <div className="mx-auto px-4 py-8">
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {allPosts.length > 0 ? (
-              allPosts.map((post) => (
-                <ArticleCard key={post.id} article={post} />
-              ))
-            ) : (
-              <div className="flex flex-col items-center justify-center">
-                <h1 className="text-3xl font-bold mb-8">Tidak ada artikel</h1>
-                <p className="text-muted-foreground">
-                  Tidak ada artikel yang ditemukan untuk pencarian Anda
-                </p>
-              </div>
-            )}
-          </div>
-          {hasNextPage && (
-            <button
-              onClick={() => fetchNextPage()}
-              disabled={isFetchingNextPage}
-            >
-              {isFetchingNextPage ? "Loading..." : "Load More"}
-            </button>
-          )}
+
+      {isLoading && (
+        <div className="w-full items-center justify-center flex">
+          <Skeleton className="h-10 w-10 animate-spin bg-slate-600" />
         </div>
       )}
-      {!matches && (
-        <div className="mx-auto px-4 py-8">
-          <div className=" gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {allPosts.length > 0 ? (
-              allPosts.map((post) => (
-                <ArticleCard key={post.id} article={post} mobile />
-              ))
-            ) : (
-              <div className="flex flex-col items-center justify-center">
-                <h1 className="text-3xl font-bold mb-8">Tidak ada artikel</h1>
-                <p className="text-muted-foreground">
-                  Tidak ada artikel yang ditemukan untuk pencarian Anda
-                </p>
-              </div>
-            )}
-          </div>
-          {hasNextPage && (
-            <button
-              onClick={() => fetchNextPage()}
-              disabled={isFetchingNextPage}
-            >
-              {isFetchingNextPage ? "Loading..." : "Load More"}
-            </button>
-          )}
+
+      {!isLoading && allPosts.length === 0 && (
+        <div className="flex w-full flex-col items-center justify-center">
+          <h1 className="text-3xl font-bold mb-8">Tidak ada artikel</h1>
+          <p className="text-muted-foreground">
+            Tidak ada artikel yang ditemukan untuk pencarian Anda
+          </p>
         </div>
       )}
+
+      <div className="mx-auto px-4 py-8 xl:px-20">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {allPosts.length > 0 &&
+            allPosts.map((post) => (
+              <ArticleCard key={post.id} article={post} mobile={!matches} />
+            ))}
+        </div>
+        {hasNextPage && (
+          <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+            {isFetchingNextPage ? "Loading..." : "Load More"}
+          </button>
+        )}
+      </div>
     </main>
   );
 }

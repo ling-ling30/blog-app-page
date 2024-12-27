@@ -25,7 +25,6 @@ export const getToken = async (): Promise<string> => {
   tokenPromise = (async () => {
     try {
       const session = await getSession();
-      console.log(session, "session");
       const token = await generateJWT(session);
 
       tokenCache = {

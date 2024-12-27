@@ -12,12 +12,13 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function WelcomeHero() {
   const { data: featuredPosts, isLoading } = useFeaturedPosts();
 
   if (isLoading) {
-    return <LoadingOverlay isLoading={isLoading} />;
+    return <Skeleton className="h-[500px] " />;
   }
 
   if (!featuredPosts?.length) return null;

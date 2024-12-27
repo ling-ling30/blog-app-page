@@ -33,6 +33,11 @@ const items = [
     url: "/admin/articles",
     icon: SquareMenu,
   },
+  {
+    title: "Pengaturan",
+    url: "/admin/settings",
+    icon: Settings,
+  },
 ];
 
 export function AppSidebar() {

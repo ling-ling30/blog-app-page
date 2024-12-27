@@ -17,6 +17,7 @@ const TAG_QUERY_KEY = "tags";
 const CATEGORY_QUERY_KEY = "categories";
 const ADMIN_POSTS_QUERY_KEY = "posts";
 const ADMIN_POSTS_BY_SLUG_QUERY_KEY = "posts-by-slug";
+const ADMIN_SETTINGS_QUERY_KEY = "settings";
 
 export type SortOrder = "asc" | "desc";
 export type SortField = "createdAt" | "title" | "viewCount" | "publishedAt";
@@ -239,6 +240,38 @@ export const useDeletePost = (slug: string) => {
 
       // Optionally update specific post in cache
       queryClient.setQueryData(["post", data.data.slug], data.data);
+    },
+  });
+};
+export type Settings = [
+  { id: "about"; value: string },
+  { id: "address"; value: string },
+  { id: "email"; value: string },
+  { id: "phone_number"; value: string }
+];
+
+export const useGetSettings = () => {
+  return useQuery<Settings>({
+    queryKey: [ADMIN_SETTINGS_QUERY_KEY],
+    queryFn: () => authenticatedFetcher("/settings"),
+  });
+};
+
+const settingsSchema = z.object({
+  about: z.string().min(1).optional(),
+  address: z.string().min(1).optional(),
+  email: z.string().min(1).optional(),
+  phone_number: z.string().min(1).optional(),
+});
+
+export const useUpdateSettings = () => {
+  return useMutation({
+    mutationKey: [ADMIN_SETTINGS_QUERY_KEY],
+    mutationFn: (data: z.infer<typeof settingsSchema>) =>
+      putter("/settings", data),
+    onError: (error) => {
+      console.error("Failed to update settings:", error);
+      // You can add toast notifications or other error handling here
     },
   });
 };

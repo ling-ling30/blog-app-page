@@ -135,7 +135,7 @@ export const useInfinitePosts = (options?: {
     queryKey: ["infinite-posts", options], // Unique query key for caching
     queryFn: ({ pageParam = 0 }) => fetcher(buildUrl(pageParam)), // Fetch data based on page
     initialPageParam: 0, // Start fetching from the first page
-    placeholderData: (previousData, previousQuery) => previousData,
+    // placeholderData: (previousData, previousQuery) => previousData,
     staleTime: 60 * 1000,
 
     /**
@@ -153,5 +153,19 @@ export const useInfinitePosts = (options?: {
     getPreviousPageParam: (firstPage, allPages, firstPageParam) => {
       return firstPageParam > 0 ? firstPageParam - 1 : undefined;
     },
+  });
+};
+
+export const useMetaData = () => {
+  return useQuery<
+    [
+      { id: "about"; value: string },
+      { id: "address"; value: string },
+      { id: "email"; value: string },
+      { id: "phone_number"; value: string }
+    ]
+  >({
+    queryKey: ["meta-data"],
+    queryFn: () => fetcher("/public/meta"),
   });
 };
