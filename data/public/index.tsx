@@ -37,7 +37,7 @@ export const usePublicPosts = (options?: {
   return useQuery<Post[]>({
     queryKey: ["public-posts", options],
     queryFn: () => fetcher(url),
-    staleTime: 5 * 60 * 1000,
+    staleTime: 30 * 1000,
     placeholderData: (previousData, previousQuery) => previousData,
   });
 };
@@ -45,6 +45,7 @@ export const usePublicPosts = (options?: {
 export const usePublicPostBySlug = (slug: string) => {
   return useQuery<Post>({
     queryKey: ["public-posts", slug],
+    staleTime: 60 * 1000,
     queryFn: () => fetcher(`/public/posts/${slug}`),
   });
 };
@@ -53,12 +54,15 @@ export const usePublicCategories = () => {
   return useQuery<Category[]>({
     queryKey: ["public-categories"],
     queryFn: () => fetcher("/public/categories"),
+    staleTime: 60 * 1000,
+    placeholderData: (previousData, previousQuery) => previousData,
   });
 };
 
 export const usePublicTags = () => {
   return useQuery<Post[]>({
     queryKey: ["public-tags"],
+    staleTime: 60 * 1000,
     queryFn: () => fetcher("/public/tags"),
   });
 };
@@ -66,6 +70,7 @@ export const usePublicTags = () => {
 export const useFeaturedPosts = () => {
   return useQuery<Post[]>({
     queryKey: ["featured-posts"],
+    staleTime: 60 * 1000,
     queryFn: () => fetcher("/public/featured-posts"),
   });
 };
@@ -130,6 +135,8 @@ export const useInfinitePosts = (options?: {
     queryKey: ["infinite-posts", options], // Unique query key for caching
     queryFn: ({ pageParam = 0 }) => fetcher(buildUrl(pageParam)), // Fetch data based on page
     initialPageParam: 0, // Start fetching from the first page
+    placeholderData: (previousData, previousQuery) => previousData,
+    staleTime: 60 * 1000,
 
     /**
      * Determines the next page number for fetching.

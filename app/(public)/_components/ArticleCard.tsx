@@ -19,14 +19,14 @@ export default function ArticleCard({ article, mobile }: Props) {
         className="text-primary hover:underline"
       >
         <article className="rounded-lg shadow-none overflow-hidden text-xs">
-          <figure className="bg-red-100 h-48">
+          <figure className="bg-gray-100 aspect-video w-full flex justify-center items-center">
             {article.featuredImageUrl ? (
               <Image
                 src={article.featuredImageUrl}
                 alt={`Cover image for ${article.title}`}
                 width={300}
                 height={200}
-                className="w-full object-cover h-48"
+                className="object-cover h-48"
                 layout="responsive"
               />
             ) : (

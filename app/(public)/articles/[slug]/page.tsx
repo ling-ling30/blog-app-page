@@ -1,27 +1,30 @@
-"use client";
+// "use client";
 import { usePublicPostBySlug } from "@/data/public";
 import Article from "../../_components/Article";
 import LoadingOverlay from "@/components/ui/loading-overlay";
+import { Post } from "@/type";
+import { QueryClient } from "@tanstack/react-query";
+import { fetcher } from "@/lib/fetcher";
+
+export const revalidate = 60;
+export const dynamicParams = true;
 
 type Props = {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string }>;
 };
 
-export default function Component({ params: { slug } }: Props) {
-  const article = usePublicPostBySlug(slug);
-  if (article.isLoading) {
-    return <LoadingOverlay isLoading={article.isLoading} />;
-  }
+export async function generateStaticParams() {
+  const res: Post[] = await fetcher(`/public/posts`);
+  const posts = res;
+  return posts.map((post) => ({ slug: post.slug }));
+}
 
-  if (article.isError) {
-    return <div>Error</div>;
-  }
-
+export default async function Component({ params }: Props) {
+  const slug = (await params).slug;
+  const post: Post = await fetcher(`/public/posts/${slug}`);
   return (
     <article className="max-w-4xl mx-auto px-4 py-8">
-      <Article article={article.data} />
+      <Article article={post} />
     </article>
   );
 }

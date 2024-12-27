@@ -1,5 +1,6 @@
 // HtmlRenderer.tsx
-import DOMPurify from "dompurify";
+"use client";
+import DOMPurify from "isomorphic-dompurify";
 
 export const HtmlRenderer = ({ htmlString }: { htmlString: string }) => {
   const sanitizedHtml = DOMPurify.sanitize(htmlString);

@@ -48,7 +48,7 @@ export default function Articles({}: Props) {
     return "error";
   }
 
-  if (!data || !categories.data) {
+  if (isLoading || !categories.data) {
     return <LoadingOverlay isLoading={isLoading || categories.isLoading} />;
   }
 

@@ -33,13 +33,15 @@ export default function Article({ article, preview }: Props) {
           </div>
         </header>
         {article.featuredImageUrl ? (
-          <img
-            src={article.featuredImageUrl}
-            alt="First blog post cover image"
-            width={700}
-            height={300}
-            className="rounded-lg object-cover w-full mb-8"
-          />
+          <figure className="bg-gray-100 aspect-video w-full flex justify-center items-center">
+            <Image
+              src={article.featuredImageUrl}
+              alt="First blog post cover image"
+              width={700}
+              height={300}
+              className="rounded-lg object-cover mb-8"
+            />
+          </figure>
         ) : null}
 
         <div className="prose prose-lg dark:prose-invert max-w-none">
@@ -77,13 +79,15 @@ export default function Article({ article, preview }: Props) {
         </header>
         {/* handle featuredImage if it is a string, file or null */}
         {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt="Cover image for blog post"
-            width={800}
-            height={400}
-            className="rounded-lg object-cover w-full"
-          />
+          <figure className="bg-gray-100 aspect-video w-full flex justify-center items-center">
+            <Image
+              src={imageUrl}
+              alt="Cover image for blog post"
+              width={800}
+              height={400}
+              className="rounded-lg object-cover"
+            />
+          </figure>
         ) : null}
         <div className="prose prose-lg dark:prose-invert max-w-none">
           <HtmlRenderer htmlString={preview.content || ""} />
